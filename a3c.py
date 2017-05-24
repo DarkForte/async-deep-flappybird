@@ -117,9 +117,7 @@ if settings.mode == "train":
   if settings.use_gpu:
     device = "/gpu:0"
 
-  initial_learning_rates = log_uniform(settings.initial_alpha_low,
-                                        settings.initial_alpha_high,
-                                        settings.parallel_agent_size)
+  initial_learning_rates = log_uniform(settings.initial_alpha_low, settings.initial_alpha_high, settings.parallel_agent_size)
   global_t = 0
 
   stop_requested = False
