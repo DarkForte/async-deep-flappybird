@@ -112,15 +112,12 @@ def write_checkpoint(saver, start_time):
              global_step=global_t)
 
 
-
-if not settings.mode == 'display' and not settings.mode == 'visualize':
+if settings.mode == "train":
   device = "/cpu:0"
   if settings.use_gpu:
     device = "/gpu:0"
 
-  initial_learning_rates = log_uniform(settings.initial_alpha_low,
-                                        settings.initial_alpha_high,
-                                        settings.parallel_agent_size)
+  initial_learning_rates = log_uniform(settings.initial_alpha_low, settings.initial_alpha_high, settings.parallel_agent_size)
   global_t = 0
 
   stop_requested = False
@@ -163,8 +160,9 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
     training_threads.append(training_thread)
 
   # prepare session
-  sess = tf.Session(config=tf.ConfigProto(log_device_placement=False,
-                                          allow_soft_placement=True))
+  # log_device_placement: log where the calculation is performed, on CPU/GPU
+  # allow soft placement: if an unexist GPU is specified, then replace it with a valid one
+  sess = tf.Session(config=tf.ConfigProto(log_device_placement=False, allow_soft_placement=True))
 
   init = tf.global_variables_initializer()
   sess.run(init)
