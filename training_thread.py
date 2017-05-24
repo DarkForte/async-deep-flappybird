@@ -50,15 +50,9 @@ class A3CTrainingThread(object):
       for v in variables:
         var_refs.append(v)
       
-      self.gradients = tf.gradients(
-        self.local_network.total_loss, var_refs,
-        gate_gradients=False,
-        aggregation_method=None,
-        colocate_gradients_with_ops=False)
+      self.gradients = tf.gradients(self.local_network.total_loss, var_refs)
 
-    self.apply_gradients = grad_applier.apply_gradients(
-      global_network.get_vars(),
-      self.gradients )
+    self.apply_gradients = grad_applier.apply_gradients(global_network.get_vars(), self.gradients)
       
     self.sync = self.local_network.sync_from(global_network)
     
