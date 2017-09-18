@@ -115,6 +115,7 @@ def write_checkpoint(saver, start_time):
 if settings.mode == "train":
   device = "/cpu:0"
   if settings.use_gpu:
+    print "Using gpu for training"
     device = "/gpu:0"
 
   initial_learning_rates = log_uniform(settings.initial_alpha_low, settings.initial_alpha_high, settings.parallel_agent_size)
